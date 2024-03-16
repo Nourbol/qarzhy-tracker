@@ -1,0 +1,121 @@
+/* styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.upload-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+}
+
+.upload-container h2 {
+    margin-bottom: 20px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pdfFile {
+    margin: 10px 0;
+}
+
+p {
+    margin: 0;
+}
+
+.upload-form button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+    margin: 10px;
+}
+
+.upload-form button:hover {
+    background-color: #45a049;
+}
+
+.upload-form input[type="file"] {
+    display: none;
+}
+
+.upload-form label {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.upload-form label:hover {
+    background-color: #45a049;
+}
+
+.finance-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.finance-container h2 {
+    margin-bottom: 20px;
+}
+
+.finance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.finance-table th, .finance-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.finance-table th {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.finance-table td {
+    background-color: #f9f9f9;
+}
+
+.information-block {
+    border-radius: 6px;
+    padding: 24px;
+    margin: 0 auto;
+    max-width: 60vw;
+    display: flex;
+    flex-shrink: 1;
+    box-shadow: 0 0.394px 0.47px 0 rgba(0, 0, 0, 0.02), 0 0.978px 1.131px 0 rgba(0, 0, 0, 0.03), 0 1.867px 2.129px 0 rgba(0, 0, 0, 0.04), 0px 3.276px 3.797px 0px rgba(0, 0, 0, 0.04), 0px 5.739px 7.102px 0px rgba(0, 0, 0, 0.05), 0px 12px 17px 0px rgba(0, 0, 0, 0.07);
+}
