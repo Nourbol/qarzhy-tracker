@@ -1,4 +1,4 @@
-package kz.edu.astanait.qarzhytracker.dto;
+package kz.edu.astanait.qarzhytracker.domain;
 
 import lombok.Builder;
 import java.math.BigDecimal;

@@ -1,13 +1,14 @@
 package kz.edu.astanait.qarzhytracker.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.math.BigDecimal;
 
-@UtilityClass
-public class StringUtils {
+public final class BigDecimalUtils {
 
-    public BigDecimal extractBigDecimalFrom(final String string) {
+    private BigDecimalUtils() {
+        throw new UnsupportedOperationException();
+    }
+
+    public static BigDecimal fromString(final String string) {
         var numericString = string.replaceAll("[^\\d,]", "")
                 .replace(" ", "")
                 .replace(",", ".");
