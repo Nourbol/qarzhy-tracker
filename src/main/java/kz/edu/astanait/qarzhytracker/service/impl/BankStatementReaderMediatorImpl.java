@@ -2,7 +2,7 @@ package kz.edu.astanait.qarzhytracker.service.impl;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.Finance;
-import kz.edu.astanait.qarzhytracker.service.BankStatementReader;
+import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class BankStatementReaderImpl implements BankStatementReader {
+public class BankStatementReaderMediatorImpl implements BankStatementReaderMediator {
 
     private final Map<BankStatementType, BankStatementReaderAdapter> bankStatementReaderAdapterMap;
 

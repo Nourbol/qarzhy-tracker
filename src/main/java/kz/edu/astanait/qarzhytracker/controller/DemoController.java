@@ -1,7 +1,7 @@
 package kz.edu.astanait.qarzhytracker.controller;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
-import kz.edu.astanait.qarzhytracker.service.BankStatementReader;
+import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class DemoController {
 
-    private final BankStatementReader bankStatementReader;
+    private final BankStatementReaderMediator bankStatementReaderMediator;
 
     @GetMapping("/upload-form")
     public String showUploadForm() {
@@ -26,7 +26,7 @@ public class DemoController {
     @SneakyThrows
     public String handleFileUpload(final @RequestParam("file") MultipartFile file,
                                    final Model model) {
-        var extractedFinances = bankStatementReader.read(file, BankStatementType.KASPI);
+        var extractedFinances = bankStatementReaderMediator.read(file, BankStatementType.KASPI);
         model.addAttribute("financeList", extractedFinances);
         return "financeList";
     }

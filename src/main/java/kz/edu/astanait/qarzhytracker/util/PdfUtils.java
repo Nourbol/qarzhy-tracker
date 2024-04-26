@@ -1,9 +1,14 @@
 package kz.edu.astanait.qarzhytracker.util;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import technology.tabula.*;
+import org.springframework.web.multipart.MultipartFile;
+import technology.tabula.ObjectExtractor;
+import technology.tabula.Page;
+import technology.tabula.RectangularTextContainer;
+import technology.tabula.Table;
 import technology.tabula.extractors.SpreadsheetExtractionAlgorithm;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -14,11 +19,16 @@ public final class PdfUtils {
         throw new UnsupportedOperationException("Utility class cannot have an instance");
     }
 
-    public static Stream<Table> getTables(final PDDocument document) {
+    public static List<Table> getTables(final MultipartFile pdf) throws IOException {
+        return getTables(PDDocument.load(pdf.getInputStream()));
+    }
+
+    public static List<Table> getTables(final PDDocument document) {
         var spreadsheetExtractionAlgorithm = new SpreadsheetExtractionAlgorithm();
         var pageIterable = (Iterable<Page>) () -> new ObjectExtractor(document).extract();
         return StreamSupport.stream(pageIterable.spliterator(), false)
-                .flatMap(page -> spreadsheetExtractionAlgorithm.extract(page).stream());
+            .flatMap(page -> spreadsheetExtractionAlgorithm.extract(page).stream())
+            .toList();
     }
 
     public static List<List<RectangularTextContainer>> getRows(final Stream<Table> tables) {

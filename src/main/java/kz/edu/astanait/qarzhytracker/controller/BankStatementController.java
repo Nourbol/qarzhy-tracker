@@ -2,7 +2,7 @@ package kz.edu.astanait.qarzhytracker.controller;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.Finance;
-import kz.edu.astanait.qarzhytracker.service.BankStatementReader;
+import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
@@ -19,12 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BankStatementController {
 
-    private final BankStatementReader bankStatementReader;
+    private final BankStatementReaderMediator bankStatementReaderMediator;
 
     @PostMapping(path = "/{type}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SneakyThrows
     public List<Finance> uploadBankStatement(final @RequestParam("statement") MultipartFile statement,
                                              final @PathVariable("type") BankStatementType type) {
-        return bankStatementReader.read(statement, type);
+        return bankStatementReaderMediator.read(statement, type);
     }
 }

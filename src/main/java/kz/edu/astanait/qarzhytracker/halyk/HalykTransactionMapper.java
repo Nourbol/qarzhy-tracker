@@ -1,6 +1,5 @@
-package kz.edu.astanait.qarzhytracker.kaspi;
+package kz.edu.astanait.qarzhytracker.halyk;
 
-import kz.edu.astanait.qarzhytracker.converter.MoneyAmountConverter;
 import kz.edu.astanait.qarzhytracker.domain.Finance;
 import kz.edu.astanait.qarzhytracker.domain.TableRow;
 import kz.edu.astanait.qarzhytracker.mapper.TableMapper;
@@ -11,9 +10,8 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class KaspiTransactionMapper {
+public class HalykTransactionMapper {
 
-    private final MoneyAmountConverter moneyAmountConverter;
     private final TableMapper tableMapper;
 
     public List<Finance> mapToFinances(final List<TableRow> rows) {
@@ -23,12 +21,14 @@ public class KaspiTransactionMapper {
     }
 
     public Finance mapToFinance(final TableRow row) {
-        var kaspiTransaction = tableMapper.mapToObject(row, KaspiTransaction.class);
-        return mapToFinance(kaspiTransaction);
+        var halykTransaction = tableMapper.mapToObject(row, HalykTransaction.class);
+        return mapToFinance(halykTransaction);
     }
 
-    public Finance mapToFinance(final KaspiTransaction transaction) {
-        var amount = moneyAmountConverter.convert(transaction.amount());
-        return new Finance(transaction.date(), amount, transaction.details());
+    public Finance mapToFinance(final HalykTransaction transaction) {
+        var amount = transaction.expense()
+            .add(transaction.revenue())
+            .add(transaction.commission());
+        return new Finance(transaction.operationData(), amount, transaction.details());
     }
 }

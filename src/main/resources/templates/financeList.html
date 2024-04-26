@@ -15,7 +15,6 @@
         <tr>
             <th>Date</th>
             <th>Amount</th>
-            <th>Type</th>
             <th>Details</th>
         </tr>
         </thead>
@@ -24,7 +23,6 @@
         <tr th:each="finance : ${financeList}">
             <td th:text="${finance.date}"></td>
             <td th:text="${finance.amount}"></td>
-            <td th:text="${finance.type}"></td>
             <td th:text="${finance.details}"></td>
         </tr>
         </tbody>

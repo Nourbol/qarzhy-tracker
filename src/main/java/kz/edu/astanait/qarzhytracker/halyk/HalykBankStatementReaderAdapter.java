@@ -1,4 +1,4 @@
-package kz.edu.astanait.qarzhytracker.kaspi;
+package kz.edu.astanait.qarzhytracker.halyk;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.Finance;
@@ -13,17 +13,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class KaspiBankStatementReaderAdapter implements BankStatementReaderAdapter {
+public class HalykBankStatementReaderAdapter implements BankStatementReaderAdapter {
 
-    private static final long SKIPPED_TABLES_NUMBER = 3L;
-
-    private final KaspiTransactionMapper mapper;
+    private final HalykTransactionMapper mapper;
 
     @Override
     public List<Finance> extract(final MultipartFile statement) throws IOException {
         var tables = PdfUtils.getTables(statement);
         var rows = TableManager.from(tables)
-            .deleteFirstTables(SKIPPED_TABLES_NUMBER)
+            .deleteFirstRow(0)
             .deleteFirstRowFromAllTables()
             .getAllRows();
         return mapper.mapToFinances(rows);
@@ -31,6 +29,6 @@ public class KaspiBankStatementReaderAdapter implements BankStatementReaderAdapt
 
     @Override
     public BankStatementType getType() {
-        return BankStatementType.KASPI;
+        return BankStatementType.HALYK;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-public interface BankStatementReader {
+public interface BankStatementReaderMediator {
 
     List<Finance> read(MultipartFile statement, BankStatementType type) throws IOException;
 }
