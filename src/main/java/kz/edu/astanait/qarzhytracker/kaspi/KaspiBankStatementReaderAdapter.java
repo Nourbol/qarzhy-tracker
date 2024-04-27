@@ -1,7 +1,7 @@
 package kz.edu.astanait.qarzhytracker.kaspi;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
-import kz.edu.astanait.qarzhytracker.domain.Finance;
+import kz.edu.astanait.qarzhytracker.domain.BankStatementTransaction;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderAdapter;
 import kz.edu.astanait.qarzhytracker.util.PdfUtils;
 import kz.edu.astanait.qarzhytracker.util.TableManager;
@@ -20,13 +20,13 @@ public class KaspiBankStatementReaderAdapter implements BankStatementReaderAdapt
     private final KaspiTransactionMapper mapper;
 
     @Override
-    public List<Finance> extract(final MultipartFile statement) throws IOException {
+    public List<BankStatementTransaction> extract(final MultipartFile statement) throws IOException {
         var tables = PdfUtils.getTables(statement);
         var rows = TableManager.from(tables)
             .deleteFirstTables(SKIPPED_TABLES_NUMBER)
             .deleteFirstRowFromAllTables()
             .getAllRows();
-        return mapper.mapToFinances(rows);
+        return mapper.mapToTransactions(rows);
     }
 
     @Override

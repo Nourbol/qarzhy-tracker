@@ -1,7 +1,7 @@
 package kz.edu.astanait.qarzhytracker.service.impl;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
-import kz.edu.astanait.qarzhytracker.domain.Finance;
+import kz.edu.astanait.qarzhytracker.domain.BankStatementTransaction;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderAdapter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class BankStatementReaderMediatorImpl implements BankStatementReaderMedia
     private final Map<BankStatementType, BankStatementReaderAdapter> bankStatementReaderAdapterMap;
 
     @Override
-    public List<Finance> read(final MultipartFile statement, final BankStatementType type) throws IOException {
+    public List<BankStatementTransaction> read(final MultipartFile statement, final BankStatementType type) throws IOException {
         var adapter = bankStatementReaderAdapterMap.get(type);
         if (adapter == null) {
             throw new IllegalStateException("There is no implementation of a adapter with the type: %s".formatted(type));

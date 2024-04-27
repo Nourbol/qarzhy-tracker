@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Finance List</title>
+    <title>Transaction List</title>
     <!-- Include your stylesheets here -->
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 <body>
 
 <div class="finance-container">
-    <h2>Finances</h2>
+    <h2>Transactions</h2>
 
     <table class="finance-table">
         <thead>
@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Iterate over the list of Finance objects -->
+        <!-- Iterate over the list of Transaction objects -->
         <tr th:each="finance : ${financeList}">
             <td th:text="${finance.date}"></td>
             <td th:text="${finance.amount}"></td>

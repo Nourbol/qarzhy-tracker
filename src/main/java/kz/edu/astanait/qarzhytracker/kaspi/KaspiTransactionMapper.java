@@ -1,12 +1,11 @@
 package kz.edu.astanait.qarzhytracker.kaspi;
 
 import kz.edu.astanait.qarzhytracker.converter.MoneyAmountConverter;
-import kz.edu.astanait.qarzhytracker.domain.Finance;
+import kz.edu.astanait.qarzhytracker.domain.BankStatementTransaction;
 import kz.edu.astanait.qarzhytracker.domain.TableRow;
 import kz.edu.astanait.qarzhytracker.mapper.TableMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
@@ -16,19 +15,19 @@ public class KaspiTransactionMapper {
     private final MoneyAmountConverter moneyAmountConverter;
     private final TableMapper tableMapper;
 
-    public List<Finance> mapToFinances(final List<TableRow> rows) {
+    public List<BankStatementTransaction> mapToTransactions(final List<TableRow> rows) {
         return rows.stream()
-            .map(this::mapToFinance)
+            .map(this::mapToTransaction)
             .toList();
     }
 
-    public Finance mapToFinance(final TableRow row) {
+    public BankStatementTransaction mapToTransaction(final TableRow row) {
         var kaspiTransaction = tableMapper.mapToObject(row, KaspiTransaction.class);
-        return mapToFinance(kaspiTransaction);
+        return mapToTransaction(kaspiTransaction);
     }
 
-    public Finance mapToFinance(final KaspiTransaction transaction) {
+    public BankStatementTransaction mapToTransaction(final KaspiTransaction transaction) {
         var amount = moneyAmountConverter.convert(transaction.amount());
-        return new Finance(transaction.date(), amount, transaction.details());
+        return new BankStatementTransaction(transaction.date(), amount, transaction.details());
     }
 }

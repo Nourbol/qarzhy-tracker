@@ -26,8 +26,8 @@ public class DemoController {
     @SneakyThrows
     public String handleFileUpload(final @RequestParam("file") MultipartFile file,
                                    final Model model) {
-        var extractedFinances = bankStatementReaderMediator.read(file, BankStatementType.KASPI);
-        model.addAttribute("financeList", extractedFinances);
+        var extractedTransactions = bankStatementReaderMediator.read(file, BankStatementType.KASPI);
+        model.addAttribute("financeList", extractedTransactions);
         return "financeList";
     }
 }
