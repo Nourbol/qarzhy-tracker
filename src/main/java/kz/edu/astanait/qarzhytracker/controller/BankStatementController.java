@@ -8,6 +8,8 @@ import kz.edu.astanait.qarzhytracker.service.BankStatementUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +29,8 @@ public class BankStatementController {
     @Operation(summary = "Save transactions from a bank statement")
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<Transaction> uploadBankStatement(final @RequestParam("statement") MultipartFile statement,
-                                                 final @RequestParam("type") BankStatementType type) {
-        return bankStatementReaderMediator.upload(statement, type);
+                                                 final @RequestParam("type") BankStatementType type,
+                                                 final @AuthenticationPrincipal UserDetails userDetails) {
+        return bankStatementReaderMediator.upload(statement, type, userDetails);
     }
 }

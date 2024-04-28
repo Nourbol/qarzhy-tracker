@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -23,8 +22,6 @@ public class BaseEntity {
     private UUID id = UUID.randomUUID();
     @CreationTimestamp
     private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
     @Override
     public int hashCode() {

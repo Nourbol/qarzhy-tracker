@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TransactionFactory {
 
-    List<Transaction> create(List<BankStatementTransaction> bankStatementTransactions);
+    List<Transaction> create(String email, List<BankStatementTransaction> bankStatementTransactions);
 }

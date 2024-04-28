@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users
+(
+    id          UUID NOT NULL,
+    name        VARCHAR(100) NOT NULL,
+    email       VARCHAR(100) NOT NULL,
+    password    VARCHAR(100) NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE transactions ADD COLUMN user_id UUID NOT NULL
+CONSTRAINT transactions_users_fk REFERENCES users (id)
+ON DELETE CASCADE;
