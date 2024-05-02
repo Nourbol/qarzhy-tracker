@@ -9,9 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UpdateTimestamp;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,15 +16,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "transactions")
-public class TransactionEntity extends BaseEntity {
+@Table(name = "tokens")
+public class TokenEntity extends BaseEntity {
 
-    private LocalDate operationDate;
-    private BigDecimal amount;
-    private String details;
+    private byte[] hash;
+    private LocalDateTime expiredAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

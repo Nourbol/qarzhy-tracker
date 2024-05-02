@@ -2,11 +2,11 @@ package kz.edu.astanait.qarzhytracker.service.impl;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.Transaction;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import kz.edu.astanait.qarzhytracker.service.BankStatementUploader;
 import kz.edu.astanait.qarzhytracker.service.TransactionFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -21,8 +21,8 @@ public class BankStatementUploaderImpl implements BankStatementUploader {
 
     public List<Transaction> upload(final MultipartFile statement,
                                     final BankStatementType type,
-                                    final UserDetails userDetails) throws IOException {
+                                    final UserResponse user) throws IOException {
         var bankStatementTransactions = bankStatementReaderMediator.read(statement, type);
-        return transactionFactory.create(userDetails.getUsername(), bankStatementTransactions);
+        return transactionFactory.create(user.getEmail(), bankStatementTransactions);
     }
 }

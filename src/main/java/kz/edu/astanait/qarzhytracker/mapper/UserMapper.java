@@ -1,6 +1,7 @@
 package kz.edu.astanait.qarzhytracker.mapper;
 
 import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -14,5 +15,9 @@ public class UserMapper {
         user.setEmail(registrationRequest.email());
         user.setPassword(hashedPassword);
         return user;
+    }
+
+    public UserResponse mapToUserResponse(final UserEntity userEntity) {
+        return new UserResponse(userEntity.getId(), userEntity.getName(), userEntity.getEmail(), userEntity.getPassword());
     }
 }

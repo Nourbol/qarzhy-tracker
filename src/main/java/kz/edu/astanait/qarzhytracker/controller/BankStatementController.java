@@ -1,15 +1,16 @@
 package kz.edu.astanait.qarzhytracker.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.Transaction;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.service.BankStatementUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,11 +27,11 @@ public class BankStatementController {
     private final BankStatementUploader bankStatementReaderMediator;
 
     @SneakyThrows
-    @Operation(summary = "Save transactions from a bank statement")
+    @Operation(summary = "Save transactions from a bank statement", security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<Transaction> uploadBankStatement(final @RequestParam("statement") MultipartFile statement,
                                                  final @RequestParam("type") BankStatementType type,
-                                                 final @AuthenticationPrincipal UserDetails userDetails) {
-        return bankStatementReaderMediator.upload(statement, type, userDetails);
+                                                 final @AuthenticationPrincipal UserResponse user) {
+        return bankStatementReaderMediator.upload(statement, type, user);
     }
 }

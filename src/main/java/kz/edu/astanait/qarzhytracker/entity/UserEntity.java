@@ -17,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -39,6 +40,8 @@ public class UserEntity extends BaseEntity {
     private LocalDateTime updatedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<TransactionEntity> transactions = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<TokenEntity> tokens = new ArrayList<>();
 
     public void addTransactions(final List<TransactionEntity> transactions) {
         transactions.forEach(this::addTransaction);
@@ -49,5 +52,21 @@ public class UserEntity extends BaseEntity {
             transaction.setUser(this);
             this.transactions.add(transaction);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.email != null ? this.email.hashCode() : super.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof UserEntity that) {
+            return Objects.equals(getEmail(), that.getEmail());
+        }
+        return false;
     }
 }
