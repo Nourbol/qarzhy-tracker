@@ -23,6 +23,6 @@ public class BankStatementUploaderImpl implements BankStatementUploader {
                                     final BankStatementType type,
                                     final UserResponse user) throws IOException {
         var bankStatementTransactions = bankStatementReaderMediator.read(statement, type);
-        return transactionFactory.create(user.getEmail(), bankStatementTransactions);
+        return transactionFactory.create(bankStatementTransactions, user.getId());
     }
 }

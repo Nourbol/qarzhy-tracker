@@ -17,3 +17,14 @@ spring:
   security:
     token:
       expire-after: 30d
+
+qarzhy-tracker:
+  data:
+    web:
+      transaction-filter:
+        date-format: 'yyy-MM-dd'
+        search-parameter: search
+        from-parameter: from
+        to-parameter: to
+        type-parameter: type
+        from-days-offset: 7
