@@ -15,10 +15,12 @@ import org.springframework.context.annotation.Configuration;
     )
 )
 @SecurityScheme(
-    name = "bearerAuth",
+    name = OpenApiConfig.SECURITY_SCHEME_NAME,
     type = SecuritySchemeType.HTTP,
     scheme = "bearer",
     in = SecuritySchemeIn.HEADER
 )
 public class OpenApiConfig {
+
+    public static final String SECURITY_SCHEME_NAME = "bearerAuth";
 }

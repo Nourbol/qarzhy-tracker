@@ -1,5 +1,6 @@
 package kz.edu.astanait.qarzhytracker.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.domain.GeneratedToken;
 import kz.edu.astanait.qarzhytracker.domain.LoginRequest;
 import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Identity")
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor

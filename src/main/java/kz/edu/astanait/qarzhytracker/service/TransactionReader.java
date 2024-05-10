@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface TransactionReader {
 
     Page<Transaction> getUserTransactions(UUID userId, TransactionFilter filter, Pageable pageable);
+
+    Transaction getUserTransaction(UUID transactionId, UUID userId);
 }

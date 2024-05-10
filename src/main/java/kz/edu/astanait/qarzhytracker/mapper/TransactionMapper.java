@@ -19,6 +19,12 @@ public class TransactionMapper {
             .toList();
     }
 
+    public void mapToTransactionEntity(final SaveTransactionRequest saveTransactionRequest, final TransactionEntity transactionEntity) {
+        transactionEntity.setOperationDate(saveTransactionRequest.date());
+        transactionEntity.setAmount(saveTransactionRequest.amount());
+        transactionEntity.setDetails(saveTransactionRequest.details());
+    }
+
     public TransactionEntity mapToTransactionEntity(final SaveTransactionRequest saveTransactionRequest, final UserEntity userEntity) {
         var transactionEntity = new TransactionEntity();
         transactionEntity.setOperationDate(saveTransactionRequest.date());

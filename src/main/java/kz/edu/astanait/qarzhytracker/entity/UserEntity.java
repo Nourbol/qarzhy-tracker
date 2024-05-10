@@ -42,6 +42,8 @@ public class UserEntity extends BaseEntity {
     private List<TransactionEntity> transactions = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<TokenEntity> tokens = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<BalanceHistoryRecordEntity> balanceHistory = new ArrayList<>();
 
     public void addTransactions(final List<TransactionEntity> transactions) {
         transactions.forEach(this::addTransaction);
