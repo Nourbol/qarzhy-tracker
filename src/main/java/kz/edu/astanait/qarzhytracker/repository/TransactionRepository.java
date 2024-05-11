@@ -21,4 +21,22 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     @Query("SELECT COALESCE(SUM(t.amount), 0) FROM TransactionEntity t WHERE t.user.id = :userId")
     BigDecimal sumAmount(UUID userId);
+
+    @Query("""
+        SELECT COALESCE(SUM(t.amount), 0)
+        FROM TransactionEntity t
+        WHERE t.amount < 0
+        AND t.user.id = :userId
+        AND t.operationDate BETWEEN :from AND :to
+        """)
+    BigDecimal sumExpensesInRange(UUID userId, LocalDate from, LocalDate to);
+
+    @Query("""
+        SELECT COALESCE(SUM(t.amount), 0)
+        FROM TransactionEntity t
+        WHERE t.amount > 0
+        AND t.user.id = :userId
+        AND t.operationDate BETWEEN :from AND :to
+        """)
+    BigDecimal sumRevenuesInRange(UUID userId, LocalDate from, LocalDate to);
 }

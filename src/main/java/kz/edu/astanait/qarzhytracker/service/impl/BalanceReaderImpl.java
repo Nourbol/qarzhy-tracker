@@ -20,7 +20,7 @@ public class BalanceReaderImpl implements BalanceReader {
         return balanceHistoryReader.getUserLastBalanceHistoryRecord(userId)
             .map(balanceHistoryRecord -> {
                 var sumAmount = transactionRepository.sumAmountStartingOperationDateFrom(userId, balanceHistoryRecord.recordedAt());
-                return balanceHistoryRecord.getSubtractedBalance(sumAmount);
+                return balanceHistoryRecord.getBalanceAdding(sumAmount);
             })
             .orElse(transactionRepository.sumAmount(userId));
     }

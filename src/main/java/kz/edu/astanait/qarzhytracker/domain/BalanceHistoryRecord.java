@@ -8,7 +8,7 @@ public record BalanceHistoryRecord(UUID id,
                                    BigDecimal balance,
                                    LocalDate recordedAt) {
 
-    public BigDecimal getSubtractedBalance(final BigDecimal subtrahend) {
-        return balance.subtract(subtrahend);
+    public BigDecimal getBalanceAdding(final BigDecimal augend) {
+        return balance.add(augend);
     }
 }
