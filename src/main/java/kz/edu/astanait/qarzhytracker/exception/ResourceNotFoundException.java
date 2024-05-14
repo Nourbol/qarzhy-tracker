@@ -23,4 +23,12 @@ public class ResourceNotFoundException extends RuntimeException {
     public static ResourceNotFoundException balanceHistoryRecordNotFound(final UUID recordId) {
         return new ResourceNotFoundException("Balance history record with id %s was not found".formatted(recordId));
     }
+
+    public static ResourceNotFoundException categoryNotFound(final UUID categoryId) {
+        return new ResourceNotFoundException("Category with id %s was not found".formatted(categoryId));
+    }
+
+    public static ResourceNotFoundException budgetNotFound(final UUID budgetId) {
+        return new ResourceNotFoundException("Budget with id %s was not found".formatted(budgetId));
+    }
 }

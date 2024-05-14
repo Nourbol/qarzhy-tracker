@@ -44,6 +44,17 @@ public class UserEntity extends BaseEntity {
     private List<TokenEntity> tokens = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private List<BalanceHistoryRecordEntity> balanceHistory = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<CategoryEntity> categories = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    private List<BudgetEntity> budgets = new ArrayList<>();
+
+    public void addCategory(final CategoryEntity category) {
+        if (category != null) {
+            this.categories.add(category);
+            category.setUser(this);
+        }
+    }
 
     public void addTransactions(final List<TransactionEntity> transactions) {
         transactions.forEach(this::addTransaction);
@@ -51,8 +62,8 @@ public class UserEntity extends BaseEntity {
 
     public void addTransaction(final TransactionEntity transaction) {
         if (transaction != null) {
-            transaction.setUser(this);
             this.transactions.add(transaction);
+            transaction.setUser(this);
         }
     }
 

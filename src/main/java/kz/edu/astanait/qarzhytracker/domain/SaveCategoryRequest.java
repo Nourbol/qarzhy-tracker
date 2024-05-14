@@ -1,14 +1,12 @@
 package kz.edu.astanait.qarzhytracker.domain;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public record SaveCategoryRequest(String name,
-                                  BigDecimal goal,
-                                  String resetCron,
-                                  LocalDateTime startAt,
-                                  Integer priority,
-                                  Duration remindBefore,
-                                  Boolean active) {
+public record SaveCategoryRequest(@NotBlank
+                                  @Size(max = 255)
+                                  String name,
+                                  @Valid
+                                  SaveBudgetRequest budget) {
 }
