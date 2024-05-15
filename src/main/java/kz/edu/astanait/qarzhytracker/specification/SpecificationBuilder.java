@@ -50,6 +50,11 @@ public class SpecificationBuilder<T> {
         return wrap((root, query, cb) -> cb.like(cb.lower(pathRetriever.apply(root)), "%" + text.toLowerCase() + "%"));
     }
 
+    public static <T, V> SpecificationBuilder<T> isEqualTo(final Function<Root<T>, Path<V>> pathRetriever,
+                                                           final V value) {
+        return wrap((root, query, cb) -> cb.equal(pathRetriever.apply(root), value));
+    }
+
     public static <T, V extends Comparable<? super V>> SpecificationBuilder<T> between(final SingularAttribute<T, V> attribute,
                                                                                        final V from,
                                                                                        final V to) {

@@ -2,35 +2,42 @@ package kz.edu.astanait.qarzhytracker.specification;
 
 import kz.edu.astanait.qarzhytracker.domain.TransactionFilter;
 import kz.edu.astanait.qarzhytracker.domain.TransactionType;
+import kz.edu.astanait.qarzhytracker.entity.BaseEntity_;
 import kz.edu.astanait.qarzhytracker.entity.TransactionEntity;
 import kz.edu.astanait.qarzhytracker.entity.TransactionEntity_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 public class TransactionSearchSpecificationBuilder {
 
-    public Specification<TransactionEntity> buildSpecification(final TransactionFilter filter) {
-        return byDetails(filter.search())
-            .and(byOperationDateRange(filter.from(), filter.to()))
-            .and(byType(filter.type()));
+    public Specification<TransactionEntity> buildSpecification(final TransactionFilter filter, final UUID userId) {
+        return hasUser(userId)
+            .and(containsDetails(filter.search()))
+            .and(hasOperationInDateRange(filter.from(), filter.to()))
+            .and(hasType(filter.type()));
     }
 
-    public Specification<TransactionEntity> byDetails(final String details) {
+    public Specification<TransactionEntity> hasUser(final UUID userId) {
+        return SpecificationBuilder.<TransactionEntity, UUID>isEqualTo(root -> root.get(TransactionEntity_.user).get(BaseEntity_.id), userId)
+                                   .build();
+    }
+
+    public Specification<TransactionEntity> containsDetails(final String details) {
         return SpecificationBuilder.containsText(TransactionEntity_.details, details)
                                    .returnEmptyIfInvalidSearch(details)
                                    .build();
     }
 
-    public Specification<TransactionEntity> byOperationDateRange(final LocalDate from, final LocalDate to) {
-        return SpecificationBuilder
-            .between(TransactionEntity_.operationDate, from, to)
+    public Specification<TransactionEntity> hasOperationInDateRange(final LocalDate from, final LocalDate to) {
+        return SpecificationBuilder.between(TransactionEntity_.operationDate, from, to)
             .build();
     }
 
-    public Specification<TransactionEntity> byType(final TransactionType type) {
+    public Specification<TransactionEntity> hasType(final TransactionType type) {
         return SpecificationBuilder.<TransactionEntity>wrap(
             (root, query, criteriaBuilder) -> {
                 var path = root.get(TransactionEntity_.amount);

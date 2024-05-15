@@ -25,10 +25,10 @@ public record TransactionFilterConfigProperties(String searchParameter,
         return new TransactionFilter(
             webRequest.getParameter(searchParameter()),
             Objects.nonNull(typeParameterValue) ? TransactionType.valueOf(typeParameterValue) : null,
-            Objects.nonNull(fromParameterValue) ? LocalDate.parse(fromParameterValue, dateTimeFormatter) : LocalDate.now(clock),
-            Objects.nonNull(toParameterValue)
-                ? LocalDate.parse(toParameterValue, dateTimeFormatter)
-                : LocalDate.now(clock).minusDays(fromDaysOffset())
+            Objects.nonNull(fromParameterValue)
+                ? LocalDate.parse(fromParameterValue, dateTimeFormatter)
+                : LocalDate.now(clock).minusDays(fromDaysOffset()),
+            Objects.nonNull(toParameterValue) ? LocalDate.parse(toParameterValue, dateTimeFormatter) : LocalDate.now(clock)
         );
     }
 }

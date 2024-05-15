@@ -7,6 +7,10 @@ spring:
     password: ${DATASOURCE_PASSWORD:123456}
   flyway:
     enabled: true
+  data:
+    web:
+      pageable:
+        max-page-size: 50
   jpa:
     hibernate:
       ddl-auto: validate

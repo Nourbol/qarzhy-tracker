@@ -12,6 +12,7 @@ import kz.edu.astanait.qarzhytracker.domain.SaveTransactionsRequest;
 import kz.edu.astanait.qarzhytracker.domain.Transaction;
 import kz.edu.astanait.qarzhytracker.domain.TransactionFilter;
 import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.service.TransactionFactory;
 import kz.edu.astanait.qarzhytracker.service.TransactionModifier;
 import kz.edu.astanait.qarzhytracker.service.TransactionReader;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionController {
 
-    private final TransactionModifier transactionModifier;
-    private final TransactionReader transactionReader;
+    private final TransactionReader reader;
+    private final TransactionFactory factory;
+    private final TransactionModifier modifier;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -49,7 +51,7 @@ public class TransactionController {
     )
     public ResponseEntity<List<Transaction>> create(final @RequestBody @Valid SaveTransactionsRequest request,
                                                     final @AuthenticationPrincipal UserResponse userResponse) {
-        var savedTransactions = transactionModifier.create(request, userResponse.getId());
+        var savedTransactions = factory.create(request, userResponse.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTransactions);
     }
 
@@ -63,7 +65,7 @@ public class TransactionController {
     public ResponseEntity<Page<Transaction>> getUserTransactions(final @Parameter(hidden = true) TransactionFilter filter,
                                                                  final @Parameter(hidden = true) Pageable pageable,
                                                                  final @AuthenticationPrincipal UserResponse userResponse) {
-        var transactions = transactionReader.getUserTransactions(userResponse.getId(), filter, pageable);
+        var transactions = reader.getUserTransactions(userResponse.getId(), filter, pageable);
         return ResponseEntity.ok(transactions);
     }
 
@@ -74,7 +76,7 @@ public class TransactionController {
     )
     public ResponseEntity<Transaction> getUserTransaction(final @PathVariable("id") UUID transactionId,
                                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        var transaction = transactionReader.getUserTransaction(transactionId, userResponse.getId());
+        var transaction = reader.getUserTransaction(transactionId, userResponse.getId());
         return ResponseEntity.ok(transaction);
     }
 
@@ -86,7 +88,7 @@ public class TransactionController {
     public ResponseEntity<Void> update(final @PathVariable("id") UUID transactionId,
                                        final @RequestBody @Valid SaveTransactionRequest request,
                                        final @AuthenticationPrincipal UserResponse userResponse) {
-        transactionModifier.update(transactionId, userResponse.getId(), request);
+        modifier.update(transactionId, userResponse.getId(), request);
         return ResponseEntity.noContent().build();
     }
 
@@ -97,7 +99,7 @@ public class TransactionController {
     )
     public ResponseEntity<Void> delete(final @PathVariable("id") UUID transactionId,
                                        final @AuthenticationPrincipal UserResponse userResponse) {
-        transactionModifier.delete(transactionId, userResponse.getId());
+        modifier.delete(transactionId, userResponse.getId());
         return ResponseEntity.noContent().build();
     }
 }
