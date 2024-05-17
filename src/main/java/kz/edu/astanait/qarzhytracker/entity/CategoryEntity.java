@@ -16,6 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -33,4 +34,17 @@ public class CategoryEntity extends BaseEntity {
     private UserEntity user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<TransactionEntity> transactions = new ArrayList<>();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        return object instanceof CategoryEntity that && Objects.equals(name, that.name);
+    }
 }
