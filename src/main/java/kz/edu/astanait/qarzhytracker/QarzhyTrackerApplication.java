@@ -4,7 +4,9 @@ import kz.edu.astanait.qarzhytracker.configuration.TransactionFilterConfigProper
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 
+@EnableCaching
 @EnableConfigurationProperties(TransactionFilterConfigProperties.class)
 @SpringBootApplication
 public class QarzhyTrackerApplication {
