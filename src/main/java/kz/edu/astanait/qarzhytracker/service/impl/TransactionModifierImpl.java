@@ -26,12 +26,12 @@ public class TransactionModifierImpl implements TransactionModifier {
     public void update(final UUID transactionId, final UUID userId, final SaveTransactionRequest request) {
         var transaction = provider.getUserTransactionById(transactionId, userId);
         mapper.mapToTransactionEntity(request, transaction);
-        var newCategoryId = request.categoryId();
+        var newCategoryName = request.categoryName();
         var category = transaction.getCategory();
-        if (Objects.isNull(newCategoryId)) {
+        if (Objects.isNull(newCategoryName)) {
             transaction.setCategory(null);
-        } else if (Objects.nonNull(category) && !Objects.equals(category.getId(), newCategoryId)) {
-            var newCategory = categoryProvider.getUserCategoryById(newCategoryId, userId);
+        } else if (Objects.nonNull(category) && !Objects.equals(category.getName(), newCategoryName)) {
+            var newCategory = categoryProvider.findByNameOrCreate(newCategoryName, userId);
             transaction.setCategory(newCategory);
         }
     }

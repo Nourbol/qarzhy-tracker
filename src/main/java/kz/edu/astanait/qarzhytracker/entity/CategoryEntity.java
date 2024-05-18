@@ -35,6 +35,11 @@ public class CategoryEntity extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<TransactionEntity> transactions = new ArrayList<>();
 
+    public CategoryEntity(final String name, final UserEntity user) {
+        this.name = name;
+        this.user = user;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(name);
