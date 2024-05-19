@@ -58,12 +58,12 @@ public class TransactionMapper {
         );
     }
 
-    public TransactionSuggestion mapToTransactionSuggestion(final BankStatementTransaction bankStatementTransaction, final Category category) {
+    public TransactionSuggestion mapToTransactionSuggestion(final BankStatementTransaction bankStatementTransaction, final String categoryName) {
         return new TransactionSuggestion(
             bankStatementTransaction.date(),
             bankStatementTransaction.amount(),
             bankStatementTransaction.details(),
-            category
+            categoryName
         );
     }
 }
