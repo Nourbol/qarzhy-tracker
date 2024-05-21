@@ -21,6 +21,16 @@ spring:
   security:
     token:
       expire-after: 30d
+  mail:
+    host: smtp-mail.outlook.com
+    port: 587
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
   cloud:
     openfeign:
       client:
@@ -31,6 +41,14 @@ spring:
             readTimeout: 60000
 
 qarzhy-tracker:
+  user-activation:
+    delete-unverified-after: 30m
+    verification:
+      max-attempts: 3
+      code-length: 6
+      expire-after: 15m
+  tokens:
+    delete-expired-after: 1d
   data:
     web:
       transaction-filter:

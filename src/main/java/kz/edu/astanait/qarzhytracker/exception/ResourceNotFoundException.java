@@ -27,4 +27,8 @@ public class ResourceNotFoundException extends RuntimeException {
     public static ResourceNotFoundException categoryNotFound(final UUID categoryId) {
         return new ResourceNotFoundException("Category with id %s was not found".formatted(categoryId));
     }
+
+    public static ResourceNotFoundException verificationCodeNotFound(final UUID userId) {
+        return new ResourceNotFoundException("No verification code was sent to user with id %s".formatted(userId));
+    }
 }

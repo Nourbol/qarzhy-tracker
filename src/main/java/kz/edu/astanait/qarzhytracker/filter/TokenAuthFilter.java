@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.service.UserReader;
 import kz.edu.astanait.qarzhytracker.util.TokenUtils;
 import lombok.NonNull;
@@ -28,6 +29,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         TokenUtils.extractTokenFromHeaders(request)
             .filter(token -> SecurityContextHolder.getContext().getAuthentication() == null)
             .flatMap(userReader::getByToken)
+            .filter(UserResponse::isVerified)
             .ifPresent(user -> {
                 var authenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

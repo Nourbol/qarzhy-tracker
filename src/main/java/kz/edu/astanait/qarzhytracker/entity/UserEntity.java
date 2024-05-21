@@ -31,11 +31,14 @@ import java.util.Objects;
 @NaturalIdCache
 public class UserEntity extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
     @NaturalId
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
+    private boolean verified;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)

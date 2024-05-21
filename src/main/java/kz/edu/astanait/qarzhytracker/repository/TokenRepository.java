@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface TokenRepository extends JpaRepository<TokenEntity, UUID> {
 
     Optional<TokenEntity> findByHashAndExpiredAtAfter(byte[] hash, LocalDateTime expiredAtBefore);
+
+    void deleteAllByExpiredAtBefore(LocalDateTime createdAtBefore);
 }
