@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import kz.edu.astanait.qarzhytracker.configuration.OpenApiConfig;
 import kz.edu.astanait.qarzhytracker.domain.Category;
 import kz.edu.astanait.qarzhytracker.domain.SaveCategoryRequest;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.CategoryModifier;
 import kz.edu.astanait.qarzhytracker.service.CategoryReader;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +44,8 @@ public class CategoryController {
     )
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> create(final @Valid @RequestBody SaveCategoryRequest request,
-                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        var createdCategory = categoryModifier.create(request, userResponse.getId());
+                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        var createdCategory = categoryModifier.create(request, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
     }
 
@@ -56,8 +56,8 @@ public class CategoryController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PageableAsQueryParam
     public ResponseEntity<Page<Category>> getUserTransactions(final @Parameter(hidden = true) Pageable pageable,
-                                                              final @AuthenticationPrincipal UserResponse userResponse) {
-        var categories = categoryReader.getUserCategories(userResponse.getId(), pageable);
+                                                              final @AuthenticationPrincipal AuthenticatedUser user) {
+        var categories = categoryReader.getUserCategories(user.getId(), pageable);
         return ResponseEntity.ok(categories);
     }
 
@@ -68,8 +68,8 @@ public class CategoryController {
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> update(final @PathVariable ("id") UUID categoryId,
                                            final @Valid @RequestBody SaveCategoryRequest request,
-                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        categoryModifier.update(categoryId, request, userResponse.getId());
+                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        categoryModifier.update(categoryId, request, user.getId());
         return ResponseEntity.noContent().build();
     }
 
@@ -79,8 +79,8 @@ public class CategoryController {
     )
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Category> delete(final @PathVariable("id") UUID categoryId,
-                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        categoryModifier.delete(categoryId, userResponse.getId());
+                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        categoryModifier.delete(categoryId, user.getId());
         return ResponseEntity.noContent().build();
     }
 }

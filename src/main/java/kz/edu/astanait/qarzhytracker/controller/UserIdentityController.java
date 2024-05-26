@@ -4,13 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.configuration.OpenApiConfig;
-import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.domain.GeneratedToken;
 import kz.edu.astanait.qarzhytracker.domain.LoginRequest;
 import kz.edu.astanait.qarzhytracker.domain.UserVerificationRequest;
 import kz.edu.astanait.qarzhytracker.domain.UserVerificationResponse;
 import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.UserVerifier;
 import kz.edu.astanait.qarzhytracker.service.UserAuthenticationService;
 import kz.edu.astanait.qarzhytracker.service.UserRegistrationService;
@@ -58,8 +58,8 @@ public class UserIdentityController {
 
     @Operation(summary = "Get the authenticated user information", security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME))
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthenticatedUser> getAuthenticatedUser(final @AuthenticationPrincipal UserResponse userResponse) {
-        var authenticatedUser = userAuthenticationService.getAuthenticatedUser(userResponse);
+    public ResponseEntity<UserResponse> getAuthenticatedUser(final @AuthenticationPrincipal AuthenticatedUser user) {
+        var authenticatedUser = userAuthenticationService.getAuthenticatedUser(user);
         return ResponseEntity.ok(authenticatedUser);
     }
 }

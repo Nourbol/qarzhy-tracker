@@ -1,8 +1,8 @@
 package kz.edu.astanait.qarzhytracker.mapper;
 
-import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
-import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
 import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +19,14 @@ public class UserMapper {
     }
 
     public UserResponse mapToUserResponse(final UserEntity userEntity) {
-        return new UserResponse(userEntity.getId(), userEntity.getName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.isVerified());
+        return new UserResponse(userEntity.getId(), userEntity.getName(), userEntity.getEmail(), userEntity.isVerified());
     }
 
-    public AuthenticatedUser mapToAuthenticatedUser(final UserResponse userResponse) {
-        return new AuthenticatedUser(userResponse.getId(), userResponse.getName(), userResponse.getEmail());
+    public UserResponse mapToUserResponse(final AuthenticatedUser authenticatedUser) {
+        return new UserResponse(authenticatedUser.getId(), authenticatedUser.getName(), authenticatedUser.getEmail(), authenticatedUser.isVerified());
+    }
+
+    public AuthenticatedUser mapToAuthenticatedUser(final UserEntity userEntity) {
+        return new AuthenticatedUser(userEntity.getId(), userEntity.getName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.isVerified());
     }
 }

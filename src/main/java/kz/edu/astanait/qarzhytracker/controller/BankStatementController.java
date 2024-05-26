@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.TransactionSuggestion;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.BankStatementUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,7 +31,7 @@ public class BankStatementController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<TransactionSuggestion> uploadBankStatement(final @RequestParam("statement") MultipartFile statement,
                                                            final @RequestParam("type") BankStatementType type,
-                                                           final @AuthenticationPrincipal UserResponse user) {
+                                                           final @AuthenticationPrincipal AuthenticatedUser user) {
         return bankStatementReaderMediator.upload(statement, type, user);
     }
 }

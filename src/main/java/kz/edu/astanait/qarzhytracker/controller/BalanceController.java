@@ -8,7 +8,7 @@ import kz.edu.astanait.qarzhytracker.configuration.OpenApiConfig;
 import kz.edu.astanait.qarzhytracker.domain.BalanceHistory;
 import kz.edu.astanait.qarzhytracker.domain.BalanceHistoryRecord;
 import kz.edu.astanait.qarzhytracker.domain.SaveBalanceHistoryRecordRequest;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.BalanceHistoryModifier;
 import kz.edu.astanait.qarzhytracker.service.BalanceHistoryReader;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +41,8 @@ public class BalanceController {
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
     public ResponseEntity<BalanceHistoryRecord> addBalanceHistoryRecord(final @RequestBody @Valid SaveBalanceHistoryRecordRequest request,
-                                                                        final @AuthenticationPrincipal UserResponse userResponse) {
-        var balanceHistoryRecord = balanceHistoryModifier.addNewRecord(request, userResponse.getId());
+                                                                        final @AuthenticationPrincipal AuthenticatedUser user) {
+        var balanceHistoryRecord = balanceHistoryModifier.addNewRecord(request, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(balanceHistoryRecord);
     }
 
@@ -51,8 +51,8 @@ public class BalanceController {
         summary = "Get the balance history of the authenticated user",
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
-    public ResponseEntity<BalanceHistory> getUserBalanceHistory(final @AuthenticationPrincipal UserResponse userResponse) {
-        var balanceHistory = balanceHistoryReader.getUserBalanceHistory(userResponse.getId());
+    public ResponseEntity<BalanceHistory> getUserBalanceHistory(final @AuthenticationPrincipal AuthenticatedUser user) {
+        var balanceHistory = balanceHistoryReader.getUserBalanceHistory(user.getId());
         return ResponseEntity.ok(balanceHistory);
     }
 
@@ -63,8 +63,8 @@ public class BalanceController {
     )
     public ResponseEntity<Void> updateBalanceHistoryRecord(final @PathVariable("id") UUID recordId,
                                                            final @RequestBody @Valid SaveBalanceHistoryRecordRequest request,
-                                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        balanceHistoryModifier.updateRecord(recordId, request, userResponse.getId());
+                                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        balanceHistoryModifier.updateRecord(recordId, request, user.getId());
         return ResponseEntity.noContent().build();
     }
 
@@ -74,8 +74,8 @@ public class BalanceController {
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
     public ResponseEntity<Void> deleteBalanceHistoryRecord(final @PathVariable("id") UUID recordId,
-                                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        balanceHistoryModifier.deleteRecord(recordId, userResponse.getId());
+                                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        balanceHistoryModifier.deleteRecord(recordId, user.getId());
         return ResponseEntity.noContent().build();
     }
 }

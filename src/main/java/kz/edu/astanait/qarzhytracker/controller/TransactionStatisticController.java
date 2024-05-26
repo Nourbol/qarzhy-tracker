@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.configuration.OpenApiConfig;
 import kz.edu.astanait.qarzhytracker.domain.CategorizedFinancialOverview;
 import kz.edu.astanait.qarzhytracker.domain.GeneralFinancialSummary;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.TransactionStatisticReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -33,8 +33,8 @@ public class TransactionStatisticController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GeneralFinancialSummary> getUserTransactionStatisticInRange(final @RequestParam("from") LocalDate from,
                                                                                       final @RequestParam("to") LocalDate to,
-                                                                                      final @AuthenticationPrincipal UserResponse userResponse) {
-        var transactionStatistic = transactionStatisticReader.getUserGeneralFinancialSummaryInRange(userResponse.getId(), from, to);
+                                                                                      final @AuthenticationPrincipal AuthenticatedUser user) {
+        var transactionStatistic = transactionStatisticReader.getUserGeneralFinancialSummaryInRange(user.getId(), from, to);
         return ResponseEntity.ok(transactionStatistic);
     }
 
@@ -45,8 +45,8 @@ public class TransactionStatisticController {
     @GetMapping(path = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategorizedFinancialOverview> getUserCategoriesFinancialOverview(final @RequestParam("from") LocalDate from,
                                                                                            final @RequestParam("to") LocalDate to,
-                                                                                           final @AuthenticationPrincipal UserResponse userResponse) {
-        var categoriesFinancialOverview = transactionStatisticReader.getUserCategorizedFinancialOverview(userResponse.getId(), from, to);
+                                                                                           final @AuthenticationPrincipal AuthenticatedUser user) {
+        var categoriesFinancialOverview = transactionStatisticReader.getUserCategorizedFinancialOverview(user.getId(), from, to);
         return ResponseEntity.ok(categoriesFinancialOverview);
     }
 }

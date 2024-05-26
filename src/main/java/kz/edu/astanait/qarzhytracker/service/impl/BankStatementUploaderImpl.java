@@ -2,7 +2,7 @@ package kz.edu.astanait.qarzhytracker.service.impl;
 
 import kz.edu.astanait.qarzhytracker.domain.BankStatementType;
 import kz.edu.astanait.qarzhytracker.domain.TransactionSuggestion;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.BankStatementReaderMediator;
 import kz.edu.astanait.qarzhytracker.service.BankStatementUploader;
 import kz.edu.astanait.qarzhytracker.service.TransactionSuggestionService;
@@ -22,7 +22,7 @@ public class BankStatementUploaderImpl implements BankStatementUploader {
 
     public List<TransactionSuggestion> upload(final MultipartFile statement,
                                               final BankStatementType type,
-                                              final UserResponse user) throws IOException {
+                                              final AuthenticatedUser user) throws IOException {
         var bankStatementTransactions = bankStatementReaderMediator.read(statement, type);
         return transactionSuggestionService.suggest(bankStatementTransactions, user.getId());
     }

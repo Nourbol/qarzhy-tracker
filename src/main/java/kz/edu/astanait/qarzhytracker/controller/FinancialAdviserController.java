@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.edu.astanait.qarzhytracker.configuration.OpenApiConfig;
 import kz.edu.astanait.qarzhytracker.domain.FinancialAdvice;
 import kz.edu.astanait.qarzhytracker.domain.FinancialAdviceRequest;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.FinancialAdviser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -31,8 +31,8 @@ public class FinancialAdviserController {
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FinancialAdvice> askForAdvice(final @RequestBody FinancialAdviceRequest request,
-                                                        final @AuthenticationPrincipal UserResponse userResponse) {
-        var advice = financialAdviser.askForAdvice(request, userResponse.getId());
+                                                        final @AuthenticationPrincipal AuthenticatedUser user) {
+        var advice = financialAdviser.askForAdvice(request, user.getId());
         return ResponseEntity.ok(advice);
     }
 }

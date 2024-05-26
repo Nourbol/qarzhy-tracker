@@ -11,7 +11,7 @@ import kz.edu.astanait.qarzhytracker.domain.SaveTransactionRequest;
 import kz.edu.astanait.qarzhytracker.domain.SaveTransactionsRequest;
 import kz.edu.astanait.qarzhytracker.domain.Transaction;
 import kz.edu.astanait.qarzhytracker.domain.TransactionFilter;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.service.TransactionFactory;
 import kz.edu.astanait.qarzhytracker.service.TransactionModifier;
 import kz.edu.astanait.qarzhytracker.service.TransactionReader;
@@ -50,8 +50,8 @@ public class TransactionController {
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
     public ResponseEntity<List<Transaction>> create(final @RequestBody @Valid SaveTransactionsRequest request,
-                                                    final @AuthenticationPrincipal UserResponse userResponse) {
-        var savedTransactions = factory.create(request, userResponse.getId());
+                                                    final @AuthenticationPrincipal AuthenticatedUser user) {
+        var savedTransactions = factory.create(request, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTransactions);
     }
 
@@ -64,8 +64,8 @@ public class TransactionController {
     @TransactionFilterAsQueryParam
     public ResponseEntity<Page<Transaction>> getUserTransactions(final @Parameter(hidden = true) TransactionFilter filter,
                                                                  final @Parameter(hidden = true) Pageable pageable,
-                                                                 final @AuthenticationPrincipal UserResponse userResponse) {
-        var transactions = reader.getUserTransactions(userResponse.getId(), filter, pageable);
+                                                                 final @AuthenticationPrincipal AuthenticatedUser user) {
+        var transactions = reader.getUserTransactions(user.getId(), filter, pageable);
         return ResponseEntity.ok(transactions);
     }
 
@@ -75,8 +75,8 @@ public class TransactionController {
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
     public ResponseEntity<Transaction> getUserTransaction(final @PathVariable("id") UUID transactionId,
-                                                          final @AuthenticationPrincipal UserResponse userResponse) {
-        var transaction = reader.getUserTransaction(transactionId, userResponse.getId());
+                                                          final @AuthenticationPrincipal AuthenticatedUser user) {
+        var transaction = reader.getUserTransaction(transactionId, user.getId());
         return ResponseEntity.ok(transaction);
     }
 
@@ -87,8 +87,8 @@ public class TransactionController {
     )
     public ResponseEntity<Void> update(final @PathVariable("id") UUID transactionId,
                                        final @RequestBody @Valid SaveTransactionRequest request,
-                                       final @AuthenticationPrincipal UserResponse userResponse) {
-        modifier.update(transactionId, userResponse.getId(), request);
+                                       final @AuthenticationPrincipal AuthenticatedUser user) {
+        modifier.update(transactionId, user.getId(), request);
         return ResponseEntity.noContent().build();
     }
 
@@ -98,8 +98,8 @@ public class TransactionController {
         security = @SecurityRequirement(name = OpenApiConfig.SECURITY_SCHEME_NAME)
     )
     public ResponseEntity<Void> delete(final @PathVariable("id") UUID transactionId,
-                                       final @AuthenticationPrincipal UserResponse userResponse) {
-        modifier.delete(transactionId, userResponse.getId());
+                                       final @AuthenticationPrincipal AuthenticatedUser user) {
+        modifier.delete(transactionId, user.getId());
         return ResponseEntity.noContent().build();
     }
 }

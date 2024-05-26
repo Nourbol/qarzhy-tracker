@@ -1,9 +1,9 @@
 package kz.edu.astanait.qarzhytracker.service.impl;
 
-import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
+import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.domain.GeneratedToken;
 import kz.edu.astanait.qarzhytracker.domain.LoginRequest;
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.exception.ResourceNotFoundException;
 import kz.edu.astanait.qarzhytracker.mapper.UserMapper;
 import kz.edu.astanait.qarzhytracker.repository.UserRepository;
@@ -35,7 +35,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     }
 
     @Override
-    public AuthenticatedUser getAuthenticatedUser(final UserResponse userResponse) {
-        return userMapper.mapToAuthenticatedUser(userResponse);
+    public UserResponse getAuthenticatedUser(final AuthenticatedUser user) {
+        return userMapper.mapToUserResponse(user);
     }
 }

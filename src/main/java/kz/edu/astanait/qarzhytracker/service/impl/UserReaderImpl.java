@@ -1,6 +1,6 @@
 package kz.edu.astanait.qarzhytracker.service.impl;
 
-import kz.edu.astanait.qarzhytracker.domain.UserResponse;
+import kz.edu.astanait.qarzhytracker.domain.AuthenticatedUser;
 import kz.edu.astanait.qarzhytracker.entity.TokenEntity;
 import kz.edu.astanait.qarzhytracker.mapper.UserMapper;
 import kz.edu.astanait.qarzhytracker.repository.TokenRepository;
@@ -26,17 +26,17 @@ public class UserReaderImpl implements UserReader {
     private final Clock clock;
 
     @Override
-    public UserResponse getByEmail(String email) {
+    public AuthenticatedUser getByEmail(String email) {
         return repository.findByEmail(email)
-            .map(userMapper::mapToUserResponse)
+            .map(userMapper::mapToAuthenticatedUser)
             .orElseThrow(() -> new UsernameNotFoundException("User with email %s was not found".formatted(email)));
     }
 
     @Override
-    public Optional<UserResponse> getByToken(final String token) {
+    public Optional<AuthenticatedUser> getByToken(final String token) {
         var hashedToken = TokenUtils.hash(token);
         return tokenRepository.findByHashAndExpiredAtAfter(hashedToken, LocalDateTime.now(clock))
             .map(TokenEntity::getUser)
-            .map(userMapper::mapToUserResponse);
+            .map(userMapper::mapToAuthenticatedUser);
     }
 }

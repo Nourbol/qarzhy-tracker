@@ -20,7 +20,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public UserResponse register(final UserRegistrationRequest registrationRequest) {
         var user = userFactory.create(registrationRequest);
-        verificationCodeSender.sendForUser(user.getId(), user.getEmail());
+        verificationCodeSender.sendForUser(user.id(), user.email());
         return user;
     }
 }
