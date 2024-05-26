@@ -1,5 +1,6 @@
 package kz.edu.astanait.qarzhytracker.service.impl;
 
+import kz.edu.astanait.qarzhytracker.domain.ErrorType;
 import kz.edu.astanait.qarzhytracker.domain.UserRegistrationRequest;
 import kz.edu.astanait.qarzhytracker.domain.UserResponse;
 import kz.edu.astanait.qarzhytracker.exception.AlreadyExistsException;
@@ -21,7 +22,7 @@ public class UserFactoryImpl implements UserFactory {
     @Override
     public UserResponse create(final UserRegistrationRequest request) {
         if (userRepository.existsByEmailIgnoreCase(request.email())) {
-            throw new AlreadyExistsException("Email is already taken by another user");
+            throw new AlreadyExistsException(ErrorType.EMAIL_ALREADY_TAKEN, "Email is already taken by another user");
         }
         var encodedPassword = passwordEncoder.encode(request.password());
         var user = userRepository.save(userMapper.mapToUserEntity(request, encodedPassword));

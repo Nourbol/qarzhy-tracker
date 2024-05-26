@@ -2,7 +2,7 @@ package kz.edu.astanait.qarzhytracker.service.impl;
 
 import kz.edu.astanait.qarzhytracker.domain.Category;
 import kz.edu.astanait.qarzhytracker.domain.SaveCategoryRequest;
-import kz.edu.astanait.qarzhytracker.exception.DuplicateException;
+import kz.edu.astanait.qarzhytracker.exception.AlreadyExistsException;
 import kz.edu.astanait.qarzhytracker.exception.ResourceNotFoundException;
 import kz.edu.astanait.qarzhytracker.mapper.CategoryMapper;
 import kz.edu.astanait.qarzhytracker.repository.CategoryRepository;
@@ -30,7 +30,7 @@ public class CategoryModifierImpl implements CategoryModifier {
         var user = userRepository.findById(userId)
                                  .orElseThrow(() -> ResourceNotFoundException.userNotFound(userId));
         if (repository.existsByNameIgnoreCaseAndUserId(request.name(), userId)) {
-            throw DuplicateException.existingCategoryName();
+            throw AlreadyExistsException.existingCategoryName();
         }
         var category = mapper.mapToCategoryEntity(request);
         user.addCategory(category);
@@ -46,7 +46,7 @@ public class CategoryModifierImpl implements CategoryModifier {
                                  .orElseThrow(() -> ResourceNotFoundException.categoryNotFound(categoryId));
         var newCategoryName = request.name();
         if (!category.getName().equalsIgnoreCase(newCategoryName) && repository.existsByNameIgnoreCaseAndUserId(newCategoryName, userId)) {
-            throw DuplicateException.existingCategoryName();
+            throw AlreadyExistsException.existingCategoryName();
         }
         mapper.mapToCategoryEntity(request, category);
         var budgetRequest = request.budget();

@@ -30,7 +30,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         var email = request.email();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, request.password()));
         var user = userRepository.findByEmail(email)
-                                 .orElseThrow(() -> new ResourceNotFoundException("User with email %s was not found".formatted(email)));
+                                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundByEmail(email));
         return tokenFactory.create(user.getId());
     }
 

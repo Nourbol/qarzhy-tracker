@@ -1,10 +1,11 @@
 package kz.edu.astanait.qarzhytracker.handler;
 
 import kz.edu.astanait.qarzhytracker.domain.ApiError;
+import kz.edu.astanait.qarzhytracker.domain.ErrorType;
+import kz.edu.astanait.qarzhytracker.exception.ServiceException;
 import kz.edu.astanait.qarzhytracker.util.ValidationErrorUtil;
 import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,25 +17,31 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class QarzhyTrackerExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<ApiError<String>> handleServiceException(final WebRequest request,
+                                                                   final ServiceException serverException) {
+        return handleThrowable(request, serverException, serverException.getErrorType());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError<String>> handleException(final WebRequest request,
                                                             final Exception exception) {
-        return handleThrowable(request, exception, HttpStatus.INTERNAL_SERVER_ERROR);
+        return handleThrowable(request, exception, ErrorType.UNEXPECTED_EXCEPTION);
     }
 
     /**
-     * Maps {@link Throwable} to a {@link org.springframework.http.ResponseEntity} containing {@link ApiError}.
+     * Maps {@link Throwable} to a {@link ResponseEntity} containing {@link ApiError}.
      *
      * @param request    An object that contains information about the web request.
      * @param throwable  A throwable that has to be processed.
-     * @param httpStatus An HTTP status of the response.
-     * @return A {@link org.springframework.http.ResponseEntity} containing {@link ApiError}.
+     * @param errorType  A type of the error.
+     * @return A {@link ResponseEntity} containing {@link ApiError}.
      */
     public ResponseEntity<ApiError<String>> handleThrowable(final WebRequest request,
                                                             final Throwable throwable,
-                                                            final HttpStatus httpStatus) {
-        return ResponseEntity.status(httpStatus)
-                             .body(ApiError.construct(httpStatus, throwable, request));
+                                                            final ErrorType errorType) {
+        return ResponseEntity.status(errorType.getHttpStatusCode())
+                             .body(ApiError.construct(errorType, throwable, request));
     }
 
     @Override
