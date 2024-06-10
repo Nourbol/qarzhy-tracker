@@ -13,7 +13,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, UUID> 
 
     Optional<CategoryEntity> findByIdAndUserId(UUID id, UUID userId);
 
-    Optional<CategoryEntity> findByNameAndUserId(String name, UUID userId);
+    Optional<CategoryEntity> findByNameIgnoreCaseAndUserId(String name, UUID userId);
 
     int deleteByIdAndUserId(UUID id, UUID userId);
 

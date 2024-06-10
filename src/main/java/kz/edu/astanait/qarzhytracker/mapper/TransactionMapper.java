@@ -31,6 +31,16 @@ public class TransactionMapper {
         return transactionEntity;
     }
 
+    public TransactionEntity mapToTransactionEntity(final SaveTransactionRequest saveTransactionRequest,
+                                                    final UserEntity userEntity) {
+        var transactionEntity = new TransactionEntity();
+        transactionEntity.setOperationDate(saveTransactionRequest.date());
+        transactionEntity.setAmount(saveTransactionRequest.amount());
+        transactionEntity.setDetails(saveTransactionRequest.details());
+        transactionEntity.setUser(userEntity);
+        return transactionEntity;
+    }
+
     public Transaction mapToTransaction(final TransactionEntity transactionEntity, final Category category) {
         return new Transaction(
             transactionEntity.getId(),

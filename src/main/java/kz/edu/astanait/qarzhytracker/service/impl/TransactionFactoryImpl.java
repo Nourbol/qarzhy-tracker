@@ -35,8 +35,11 @@ public class TransactionFactoryImpl implements TransactionFactory {
     @Override
     public Transaction create(final SaveTransactionRequest request, final UUID userId) {
         var user = userRepository.getReferenceById(userId);
-        var category = categoryProvider.findByNameOrCreate(request.categoryName(), userId);
-        var createdTransaction = repository.save(mapper.mapToTransactionEntity(request, user, category));
+        var categoryName = request.categoryName();
+        var transaction = categoryName == null
+            ? mapper.mapToTransactionEntity(request, user)
+            : mapper.mapToTransactionEntity(request, user, categoryProvider.findByNameOrCreate(categoryName, userId));
+        var createdTransaction = repository.save(transaction);
         return mapper.mapToTransaction(createdTransaction);
     }
 }

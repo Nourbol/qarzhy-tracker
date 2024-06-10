@@ -17,7 +17,8 @@ public enum ErrorType {
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND),
     VERIFICATION_CODE_NOT_FOUND(HttpStatus.NOT_FOUND),
     INVALID_DATA(HttpStatus.NOT_FOUND),
-    UNEXPECTED_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR);
+    UNEXPECTED_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR),
+    BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED);
 
     private final HttpStatusCode httpStatusCode;
 

@@ -16,7 +16,7 @@ public class CategoryProvider {
     private final CategoryRepository categoryRepository;
 
     public CategoryEntity findByNameOrCreate(final String name, final UUID userId) {
-        return categoryRepository.findByNameAndUserId(name, userId)
+        return categoryRepository.findByNameIgnoreCaseAndUserId(name, userId)
                                  .orElseGet(() -> {
                                      var user = userRepository.getReferenceById(userId);
                                      return categoryRepository.save(new CategoryEntity(name, user));

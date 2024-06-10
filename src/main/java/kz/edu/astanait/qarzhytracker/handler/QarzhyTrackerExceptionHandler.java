@@ -5,15 +5,18 @@ import kz.edu.astanait.qarzhytracker.domain.ErrorType;
 import kz.edu.astanait.qarzhytracker.exception.ServiceException;
 import kz.edu.astanait.qarzhytracker.util.ValidationErrorUtil;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@Slf4j
 @RestControllerAdvice
 public class QarzhyTrackerExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -21,6 +24,12 @@ public class QarzhyTrackerExceptionHandler extends ResponseEntityExceptionHandle
     public ResponseEntity<ApiError<String>> handleServiceException(final WebRequest request,
                                                                    final ServiceException serverException) {
         return handleThrowable(request, serverException, serverException.getErrorType());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError<String>> handleBadCredentialsException(final WebRequest request,
+                                                                          final BadCredentialsException exception) {
+        return handleThrowable(request, exception, ErrorType.BAD_CREDENTIALS);
     }
 
     @ExceptionHandler(Exception.class)
@@ -40,6 +49,7 @@ public class QarzhyTrackerExceptionHandler extends ResponseEntityExceptionHandle
     public ResponseEntity<ApiError<String>> handleThrowable(final WebRequest request,
                                                             final Throwable throwable,
                                                             final ErrorType errorType) {
+        log.error("Exception was thrown", throwable);
         return ResponseEntity.status(errorType.getHttpStatusCode())
                              .body(ApiError.construct(errorType, throwable, request));
     }

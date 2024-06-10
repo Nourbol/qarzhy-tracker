@@ -28,7 +28,9 @@ public class TransactionSuggestionServiceImpl implements TransactionSuggestionSe
     @Override
     public TransactionSuggestion suggest(final BankStatementTransaction bankStatementTransaction, final UUID userId) {
         return categorySuggestionService.suggest(bankStatementTransaction.details(), userId)
-                                        .map(suggestedCategory -> transactionMapper.mapToTransactionSuggestion(bankStatementTransaction, suggestedCategory))
+                                        .map(suggestedCategory -> transactionMapper.mapToTransactionSuggestion(
+                                            bankStatementTransaction, suggestedCategory
+                                        ))
                                         .orElseGet(() -> transactionMapper.mapToTransactionSuggestion(bankStatementTransaction));
     }
 }
