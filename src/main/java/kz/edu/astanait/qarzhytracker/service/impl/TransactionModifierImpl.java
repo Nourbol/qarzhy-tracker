@@ -30,7 +30,7 @@ public class TransactionModifierImpl implements TransactionModifier {
         var category = transaction.getCategory();
         if (Objects.isNull(newCategoryName)) {
             transaction.setCategory(null);
-        } else if (Objects.nonNull(category) && !category.getName().equalsIgnoreCase(newCategoryName)) {
+        } else if (Objects.isNull(category) || !category.getName().equalsIgnoreCase(newCategoryName)) {
             var newCategory = categoryProvider.findByNameOrCreate(newCategoryName, userId);
             transaction.setCategory(newCategory);
         }
